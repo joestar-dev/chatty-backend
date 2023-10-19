@@ -3,7 +3,6 @@ import Logger from 'bunyan';
 import { ServerError } from '@global/helpers/error-handler';
 import { config } from '@root/config';
 import { IPostDocument, ISavePostToCache } from '@post/interfaces/post.interface';
-import { tryCatch } from 'bullmq';
 import { Helpers } from '@global/helpers/helpers';
 import { IReactions } from '@reaction/interfaces/reaction.interface';
 import { RedisCommandRawReply } from '@redis/client/dist/lib/commands';

@@ -8,14 +8,13 @@ Accept: application/json
 withcredentials: true
 
 {
-  "post": "This is the second post",
+  "post": "This is the first post",
   "bgColor": "#FFF",
   "privacy": "Public",
   "gifUrl": "",
   "profilePicture": "https://res.cloudinary.com/deghbmw6y/image/upload/v1695484427/650f0a06e5a3fc10c197a714",
   "feelings": "happy"
 }
-
 
 
 
