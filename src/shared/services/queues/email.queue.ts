@@ -1,5 +1,4 @@
 import Logger from 'bunyan';
-import { config } from '@root/config';
 import { BaseQueue } from './base.queue';
 import { IEmailJob } from '@user/interfaces/user.interface';
 import { emailWorker } from '@worker/email.worker';
