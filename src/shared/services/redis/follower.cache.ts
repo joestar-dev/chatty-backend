@@ -56,7 +56,7 @@ export class FollowerCache extends BaseCache {
     }
   }
 
-  public async getFollowersFormCache(key: string): Promise<IFollowerData[]> {
+  public async getFollowersFromCache(key: string): Promise<IFollowerData[]> {
     try {
       if (!this.client.isOpen) {
         await this.client.connect();
