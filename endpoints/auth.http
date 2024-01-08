@@ -8,9 +8,16 @@ Accept: application/json
 withcredentials: true
 
 {
-  "username": "joestar3",
-  "password": "joestar3"
+  "username": "joestar",
+  "password": "joestar1"
 }
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/signout
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
 
 
 ###
@@ -23,6 +30,7 @@ withcredentials: true
   "email": "joestar@mail.com"
 }
 
+
 ###
 POST {{baseUrl}}/{{urlPath}}/reset-password/bd711558ca3681f5bfd3d6ff7ef0cb05e878bb68
 Content-Type: application/json
@@ -33,13 +41,6 @@ withcredentials: true
   "password": "joestar1",
   "confirmPassword": "joestar1"
 }
-
-
-###
-GET {{baseUrl}}/{{urlPath}}/signout
-Content-Type: application/json
-Accept: application/json
-withcredentials: true
 
 
 ###
