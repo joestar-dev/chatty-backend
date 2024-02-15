@@ -1,4 +1,4 @@
-import { UserModel } from '@user/model/user.schema';
+import { UserModel } from '@user/models/user.schema';
 import { PushOperator, BulkWriteResult } from 'mongodb';
 import mongoose from 'mongoose';
 

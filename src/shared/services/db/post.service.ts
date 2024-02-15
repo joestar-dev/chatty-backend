@@ -1,6 +1,6 @@
 import mongoose, { Query, UpdateQuery } from 'mongoose';
 import { PostModel } from '@post/models/post.schema';
-import { UserModel } from '@user/model/user.schema';
+import { UserModel } from '@user/models/user.schema';
 import { IGetPostsQuery, IPostDocument, IQueryComplete, IQueryDeleted } from '@post/interfaces/post.interface'
 import { IUserDocument } from '@user/interfaces/user.interface';
 

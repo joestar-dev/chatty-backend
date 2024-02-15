@@ -8,9 +8,10 @@ import { emailQueue } from '@service/queues/email.queue';
 import { UserCache } from '@service/redis/user.cache';
 import { socketIONotificationObject } from '@socket/notification';
 import { IUserDocument } from '@user/interfaces/user.interface';
-import { UserModel } from '@user/model/user.schema';
-import { ObjectId, BulkWriteResult } from 'mongodb';
+import { UserModel } from '@user/models/user.schema';
+import { BulkWriteResult, ObjectId } from 'mongodb';
 import mongoose, { Query } from 'mongoose';
+import { map } from 'lodash';
 
 const userCache: UserCache = new UserCache();
 class FollowerService {
@@ -112,6 +113,7 @@ class FollowerService {
     await Promise.all([unfollower, users]);
   }
 
+  // This method uses for finding every user who was followed by UserId
   public async getFolloweeData(userObjectId: ObjectId): Promise<IFollowerData[]> {
     const followee: IFollowerData[] = await FollowerModel.aggregate([
       { $match: { followerId: userObjectId } },
@@ -151,6 +153,8 @@ class FollowerService {
 
     return followee;
   }
+
+
   public async getFollowerData(userObjectId: ObjectId): Promise<IFollowerData[]> {
     const follower: IFollowerData[] = await FollowerModel.aggregate([
       { $match: { followeeId: userObjectId } },
@@ -183,6 +187,20 @@ class FollowerService {
     ]);
 
     return follower;
+  }
+
+  public async getFolloweesIds(userId: string): Promise<string[]> {
+    const followee = await FollowerModel.aggregate([
+      { $match: { followerId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $project: {
+          followeeId: 1,
+          _id: 0
+        }
+      }
+    ]);
+
+    return map(followee, (result) => result.followeeId.toString());
   }
 }
 
