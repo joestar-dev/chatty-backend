@@ -1,6 +1,6 @@
 import { IFileImageDocument } from '@image/interfaces/image.interface';
 import { ImageModel } from '@image/models/images.schema';
-import { UserModel } from '@user/model/user.schema';
+import { UserModel } from '@user/models/user.schema';
 import mongoose from 'mongoose';
 
 class ImageService {

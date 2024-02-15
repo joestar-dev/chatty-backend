@@ -9,7 +9,6 @@ import { emailQueue } from '@service/queues/email.queue';
 import { UserCache } from '@service/redis/user.cache';
 import { socketIONotificationObject } from '@socket/notification';
 import { IUserDocument } from '@user/interfaces/user.interface';
-import { UserModel } from '@user/model/user.schema';
 import mongoose, { Query } from 'mongoose';
 
 const userCache: UserCache = new UserCache();
