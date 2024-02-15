@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:5200
+
+
+###
+GET {{baseUrl}}/fibo/2
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/env
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/health
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
