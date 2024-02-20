@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:5200
+@urlPath = api/v1
+
+###
+POST {{baseUrl}}/{{urlPath}}/post/reaction
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "userTo": "651c3adce69a6749489afc0f",
+  "postId": "652eaf56b2eb82bb4ace4fe4",
+  "type": "happy",
+  "postReactions": {"like": 0,"love": 0,"happy": 1,"sad": 0,"wow": 0,"angry": 0},
+  "previousReaction": "like",
+  "profilePicture": "https://res.cloudinary.com/deghbmw6y/image/upload/v1695484427/650f0a06e5a3fc10c197a714"
+}
+
+
+###
+DELETE {{baseUrl}}/{{urlPath}}/post/reaction/6526d2392191aa1e679e9c28/like/{"like": 0,"love": 0,"happy": 0,"sad": 0,"wow": 0,"angry": 0}
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/reactions/652eaf56b2eb82bb4ace4fe4
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/single/reaction/username/Joestar/652eaf56b2eb82bb4ace4fe4
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/post/reactions/username/Joestar
+Content-Type: application/json
+Accept: application/json
+withcredentials: true

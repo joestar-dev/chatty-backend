@@ -1,0 +1,112 @@
+@baseUrl = http://localhost:5200
+@urlPath = api/v1
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/all/1
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/profile
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/profile/653931bb30d8d3ff4f597b5d
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/profile/posts/joestar/651c3adce69a6749489afc0f/652eaf56b2eb82bb4ace4fe4
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/profile/user/suggestions
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/user/profile/search/jo
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/user/profile/change-password
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "currentPassword": "joestar2",
+  "newPassword": "star222",
+  "confirmPassword": "star222"
+}
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/user/profile/social-links
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "facebook": "",
+  "youtube": "youtube",
+  "instagram": "",
+  "twitter": "twitter"
+}
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/user/profile/setttings
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "quote": "",
+  "work": "",
+  "school": "",
+  "location": ""
+}
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/user/profile/basic-info
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "quote": "This is quote",
+  "work": "This is work",
+  "school": "This is school",
+  "location": "This is location"
+}
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/user/profile/settings
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "messages": false,
+  "reactions": true,
+  "comments": false,
+  "follows": true
+}

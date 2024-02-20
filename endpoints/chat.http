@@ -1,0 +1,95 @@
+@baseUrl = http://localhost:5200
+@urlPath = api/v1
+
+###
+POST {{baseUrl}}/{{urlPath}}/chat/message
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "conversationId": "65a17712d88ef3ac96107046",
+  "receiverId": "653931da30d8d3ff4f597b64",
+  "receiverUsername": "Joestar3",
+  "receiverAvatarColor": "green",
+  "receiverProfilePicture": "https://res.cloudinary.com/deghbmw6y/image/upload/v1698247136/653931da30d8d3ff4f597b64",
+  "body": "Hey! What wrong with you?",
+  "gifUrl": "",
+  "isRead": false,
+  "selectedImage": ""
+}
+
+
+###
+POST {{baseUrl}}/{{urlPath}}/chat/message/add-chat-users
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "userOne": "651c3adce69a6749489afc0f",
+  "userTwo": "653931da30d8d3ff4f597b64"
+}
+
+###
+POST {{baseUrl}}/{{urlPath}}/chat/message/remove-chat-users
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "userOne": "651c3adce69a6749489afc0f",
+  "userTwo": "653931da30d8d3ff4f597b64"
+}
+
+###
+GET {{baseUrl}}/{{urlPath}}/chat/message/conversation-list
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{}
+
+
+###
+GET {{baseUrl}}/{{urlPath}}/chat/message/user/653931da30d8d3ff4f597b64
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{}
+
+
+###
+DELETE {{baseUrl}}/{{urlPath}}/chat/message/mark-as-deleted/65bb5e76bcd0b5c269fe4d4a/651c3adce69a6749489afc0f/653931da30d8d3ff4f597b64/deleteForEveryone
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{}
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/chat/message/mark-as-read
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "senderId": "651c3adce69a6749489afc0f",
+  "receiverId": "653931da30d8d3ff4f597b64"
+}
+
+
+###
+PUT {{baseUrl}}/{{urlPath}}/chat/message/reaction
+Content-Type: application/json
+Accept: application/json
+withcredentials: true
+
+{
+  "conversationId": "65a17712d88ef3ac96107046",
+  "messageId": "65c20e4b2fcf890d9f7ab5e0",
+  "reaction": "like",
+  "type": "remove"
+}
