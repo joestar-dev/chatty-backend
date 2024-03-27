@@ -1,7 +1,7 @@
 import { IFollowerData, IFollowerDocument } from '@follower/interfaces/follower.interface';
 import { FollowerModel } from '@follower/models/follower.schema';
 import { IQueryComplete, IQueryDeleted } from '@post/interfaces/post.interface';
-import { UserModel } from '@user/model/user.schema';
+import { UserModel } from '@user/models/user.schema';
 import { ObjectId, BulkWriteResult } from 'mongodb';
 import mongoose, { Query } from 'mongoose';
 
