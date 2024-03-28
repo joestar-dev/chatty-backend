@@ -1,16 +1,25 @@
 import { IFollowerData, IFollowerDocument } from '@follower/interfaces/follower.interface';
 import { FollowerModel } from '@follower/models/follower.schema';
+import { INotificationDocument, INotificationTemplate } from '@notification/interfaces/notification.interface';
+import { NotificationModel } from '@notification/models/notification.schema';
 import { IQueryComplete, IQueryDeleted } from '@post/interfaces/post.interface';
+import { notificationTemplate } from '@service/emails/templates/notifications/notification-template';
+import { emailQueue } from '@service/queues/email.queue';
+import { UserCache } from '@service/redis/user.cache';
+import { socketIONotificationObject } from '@socket/notification';
+import { IUserDocument } from '@user/interfaces/user.interface';
 import { UserModel } from '@user/models/user.schema';
-import { ObjectId, BulkWriteResult } from 'mongodb';
+import { BulkWriteResult, ObjectId } from 'mongodb';
 import mongoose, { Query } from 'mongoose';
+import { map } from 'lodash';
 
+const userCache: UserCache = new UserCache();
 class FollowerService {
   public async addFollowerToDB(userId: string, followeeId: string, username: string, followerDocumentId: ObjectId): Promise<void> {
-    const followerObjectId: ObjectId = new mongoose.Types.ObjectId(userId);
     const followeeObjectId: ObjectId = new mongoose.Types.ObjectId(followeeId);
+    const followerObjectId: ObjectId = new mongoose.Types.ObjectId(userId);
 
-    await FollowerModel.create({
+    const following = await FollowerModel.create({
       _id: followerDocumentId,
       followerId: followerObjectId,
       followeeId: followeeObjectId
@@ -35,7 +44,46 @@ class FollowerService {
     // await UserModel.updateOne({ _id: followeeId }, { $inc: { followersCount: 1 } });
     // await UserModel.updateOne({ _id: userId }, { $inc: { followingCount: 1 } });
 
-    await Promise.all([users, UserModel.findOne({ _id: followeeId })]);
+    // Another way -> UserModel.findOne({ _id: followeeId }).populate('authId') = to retrieve the data from Auth document too
+    const response: [BulkWriteResult, IUserDocument | null] = await Promise.all([users, userCache.getUserFromCache(followeeId)]);
+
+
+    // send notification
+
+     if (response[1]?.notifications.follows && userId !== followeeId) {
+      const notificationModel: INotificationDocument = new NotificationModel();
+      const notifications = await notificationModel.insertNotification({
+        userTo: followeeId,
+        userFrom: userId,
+        message: `${username} is now following you.`,
+        notificationType: 'follows ',
+        entityId: new mongoose.Types.ObjectId(userId),
+        createdItemId: new mongoose.Types.ObjectId(following._id),
+        createdAt: new Date(),
+        comment: '',
+        post: '',
+        imgId: '',
+        imgVersion: '',
+        gifUrl: '',
+        reaction: ''
+      });
+
+      // send notification to client with socketio
+
+      socketIONotificationObject.emit('insert notification', notifications, { userTo: followeeId })
+
+      // send to email queue
+
+      const templateParams: INotificationTemplate = {
+        username: response[1].username!,
+        message: `${username} is now following you.`,
+        header: 'Follower Notification',
+      }
+
+       const template: string = notificationTemplate.notificationMessageTemplate(templateParams);
+       console.log('response ', response[1])
+      emailQueue.addEmailJob('followersEmail', { receiverEmail: response[1].email!, subject: `${username} is now following you.`, template})
+    }
   }
 
   public async removeFollowerFromDB(followeeId: string, followerId: string): Promise<void> {
@@ -65,6 +113,7 @@ class FollowerService {
     await Promise.all([unfollower, users]);
   }
 
+  // This method uses for finding every user who was followed by UserId
   public async getFolloweeData(userObjectId: ObjectId): Promise<IFollowerData[]> {
     const followee: IFollowerData[] = await FollowerModel.aggregate([
       { $match: { followerId: userObjectId } },
@@ -104,6 +153,8 @@ class FollowerService {
 
     return followee;
   }
+
+
   public async getFollowerData(userObjectId: ObjectId): Promise<IFollowerData[]> {
     const follower: IFollowerData[] = await FollowerModel.aggregate([
       { $match: { followeeId: userObjectId } },
@@ -136,6 +187,20 @@ class FollowerService {
     ]);
 
     return follower;
+  }
+
+  public async getFolloweesIds(userId: string): Promise<string[]> {
+    const followee = await FollowerModel.aggregate([
+      { $match: { followerId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $project: {
+          followeeId: 1,
+          _id: 0
+        }
+      }
+    ]);
+
+    return map(followee, (result) => result.followeeId.toString());
   }
 }
 
