@@ -4,7 +4,7 @@ resource "aws_alb" "application_load_balancer" {
   internal                   = false
   subnets                    = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
   security_groups            = [aws_security_group.alb_sg.id]
-  enable_deletion_protection = true
+  enable_deletion_protection = false
   ip_address_type            = "ipv4"
   idle_timeout               = 300
 
